@@ -4,6 +4,9 @@ export class Event extends BaseEntity{
         this.name;
         this.date; 
         this.locationName;
-        this.adminId; 
+        this.adminId;
+        this.users;
+        this.items;
     }
+    
 }

@@ -1,5 +1,5 @@
 
- class BaseEntity{
+ export class BaseEntity{
     constructor(){
         this.address1;
         this.address2;

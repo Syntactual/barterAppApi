@@ -12,7 +12,7 @@ exports.create = (req, res) => {
 
 exports.findAll = function(req, res) {
   // Retrieve and return all groups from the database.
-  res.send({groups: {name: 'test'}});
+  res.send();
 
 };
 
