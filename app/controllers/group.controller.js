@@ -11,15 +11,14 @@ const table = "barter"
 
 exports.create = (req, res) => {
   // Create and Save a new Group
-  if(!req.body.content) {
+  if(!req.body) {
     res.status(400).send({message: "Group can not be empty"});
- 
 
   }else{
     let group = req.body;
-    let user = req.locals.user;
+    // let username = req.locals.username;
 
-    console.log(req.locals.user);
+    console.log(req.locals);
 
     let params = {
       TableName:table,
@@ -27,7 +26,7 @@ exports.create = (req, res) => {
           "GroupID": Guid.raw(),
           "groupName": group.name,
           "user": {
-            "firstName" : user.firstName
+            "firstName" : 'test'
           }
       } 
   }
@@ -40,7 +39,7 @@ exports.create = (req, res) => {
         console.log("Added item:", JSON.stringify(data, null, 2));
     }
 });
-  res.send();
+    res.send({ status: 'SUCCESS' });
 
 };
 
@@ -50,7 +49,7 @@ exports.create = (req, res) => {
 
 exports.findAll = function(req, res) {
   // Retrieve and return all groups from the database.
-  res.send();
+  res.send({message:'sdasd'});
 
 };
 

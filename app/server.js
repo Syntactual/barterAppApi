@@ -17,6 +17,7 @@ const cognitoExpress = new CognitoExpress({
 
 app.use(cors());
 
+app.use(bodyParser.json());
 app.use('/api/v1',authenticatedRoute);
 authenticatedRoute.use(function(req, res, next) {
     //I'm passing in the access token in header under key accessToken
@@ -35,7 +36,6 @@ authenticatedRoute.use(function(req, res, next) {
         next();
     });
   })
-app.use(bodyParser.json());
 
 require('./routes/items.routes.js')(authenticatedRoute);
 require('./routes/groups.routes.js')(authenticatedRoute);
