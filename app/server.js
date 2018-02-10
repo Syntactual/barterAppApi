@@ -3,7 +3,7 @@ const express = require("express"),
     port = process.env.PORT;
 
 const app = express(),
-    authenticatedRoute = express.Router(),
+   
     cors = require('cors'),
     bodyParser = require('body-parser');
 
