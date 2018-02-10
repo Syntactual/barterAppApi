@@ -14,12 +14,6 @@ const cognitoExpress = new CognitoExpress({
     tokenExpiration: 3600000 //Up to default expiration of 1 hour (3600000 ms)
 });
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
-
 app.use('/api/v1',function(req, res, next) {
     
     //I'm passing in the access token in header under key accessToken
@@ -42,10 +36,10 @@ app.use('/api/v1',function(req, res, next) {
 
 app.use(bodyParser.json());
 
-require('./routes/items.routes.js')(authenticatedRoute);
-require('./routes/groups.routes.js')(authenticatedRoute);
-require('./routes/users.routes.js')(authenticatedRoute);
-require('./routes/events.routes.js')(authenticatedRoute);
+require('./routes/items.routes.js')(app);
+require('./routes/groups.routes.js')(app);
+require('./routes/users.routes.js')(app);
+require('./routes/events.routes.js')(app);
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
 
