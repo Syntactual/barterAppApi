@@ -6,8 +6,6 @@ const express = require("express"),
 const app = express(),
     authenticatedRoute = express.Router();
 
-
-
 const cognitoExpress = new CognitoExpress({
     region: "us-east-1",
     cognitoUserPoolId: "us-east-1_dXlFef73t",
@@ -15,7 +13,7 @@ const cognitoExpress = new CognitoExpress({
     tokenExpiration: 3600000 //Up to default expiration of 1 hour (3600000 ms)
 });
 
-app.use(function(req, res, next) {
+app.use('/api/v1',function(req, res, next) {
     
     //I'm passing in the access token in header under key accessToken
     let accessTokenFromClient = req.headers.accesstoken;
@@ -34,10 +32,10 @@ app.use(function(req, res, next) {
     });
 });
 
-require('./routes/items.routes.js')(app);
-require('./routes/groups.routes.js')(app);
-require('./routes/users.routes.js')(app);
-require('./routes/events.routes.js')(app);
+require('./routes/items.routes.js')(authenticatedRoute);
+require('./routes/groups.routes.js')(authenticatedRoute);
+require('./routes/users.routes.js')(authenticatedRoute);
+require('./routes/events.routes.js')(authenticatedRoute);
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
 
