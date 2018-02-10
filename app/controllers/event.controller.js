@@ -1,5 +1,4 @@
 
-
 exports.create = (req, res) => {
   // Create and Save a new Event
   if(!req.body.content) {
@@ -8,6 +7,8 @@ exports.create = (req, res) => {
 
   }
 
+  res.status(200).send({message: "Group created"});
+
   // save issue
 
 };
@@ -15,9 +16,9 @@ exports.create = (req, res) => {
 exports.findAll = function(req, res) {
   // Retrieve and return all events from the database.
   
+  res.send();
+
 };
-
-
 
 exports.findOne = function(req, res) {
   // Find a single event with a eventId
