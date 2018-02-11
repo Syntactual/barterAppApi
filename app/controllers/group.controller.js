@@ -16,28 +16,50 @@ exports.create = (req, res) => {
 
   }else{
     let group = req.body;
-    // let username = req.locals.username;
-
-    console.log(req.locals);
-
+    console.log(req.body);
+    let username = res.locals.username;
+    let groupID = Guid.raw();
+    //console.log(req.locals);
+    let paramsUser = {
+      TableName: "Users",
+      Item : {
+        username: username,
+        groupID : groupID
+      }
+      
+    };
     let params = {
       TableName:table,
       Item:{
-          "GroupID": Guid.raw(),
+          "GroupID": groupID,
           "groupName": group.name,
-          "user": {
-            "firstName" : 'test'
-          }
+          "createDate" : Date.now,
+          "meets": [{
+            meetDate: group.meetDate,
+            //items : [],
+            users: [{
+              username: username,
+             // itemsClaimed: [],
+              //itemsSubmitted: []
+            }]
+          }]
       } 
-  }
+  };
 
   console.log("Adding a new group...");
   docClient.put(params, function(err, data) {
     if (err) {
         console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
     } else {
-        console.log("Added item:", JSON.stringify(data, null, 2));
+        console.log("Added item:", data);
     }
+});
+docClient.put(paramsUser, (err, data)=> {
+  if (err) {
+    console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+} else {
+    console.log("Added item:", data);
+}
 });
     res.send({ status: 'SUCCESS' });
 
@@ -49,13 +71,50 @@ exports.create = (req, res) => {
 
 exports.findAll = function(req, res) {
   // Retrieve and return all groups from the database.
-  res.send({message:'sdasd'});
+  res.send();
 
 };
 
-exports.findOne = function(req, res) {
+exports.findOne = function(req,res) {
   // Find a single group with a groupId
-  res.send(req.params)
+  //find group by username
+  console.log("findOne");
+  let username = res.locals.username;
+  let params = {
+    TableName: users,
+    Key:{
+      username : username
+      
+      
+    }
+    
+};
+
+docClient.get(params, (err, data) => {
+  if (err) {
+      console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+      res.send()
+  } else {
+      console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+      let nextParams = {
+        TableName: table,
+        Key:{
+          GroupID: data.Item.groupID
+        }
+      }
+      docClient.get(nextParams, (err, data)=> {
+        if (err) {
+          console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+          res.send()
+      } else {
+        console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+        res.send(data);
+      }
+      });
+      
+  }
+});
+  
 
 };
 

@@ -8,7 +8,7 @@ module.exports = (app) => {
     app.get('/groups', groups.findAll);
 
     // Retrieve a single group with groupId
-    app.get('/groups/:groupId', groups.findOne);
+    app.get('/group', groups.findOne);
 
     // Update a group with groupId
     app.put('/groups/:groupId', groups.update);

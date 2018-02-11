@@ -1,7 +1,38 @@
+const AWS = require("aws-sdk");
+
+AWS.config.update({
+  region: "us-west-2"
+});
+
+
+const docClient = new AWS.DynamoDB.DocumentClient();
+
+const table = "barter"
+
 exports.create = (req, res) => {
   // Create and Save a new Item
   if(!req.body.content) {
     res.status(400).send({message: "Item can not be empty"});
+  }else{
+    let item = req.body;
+
+    let params = {
+      TableName:table,
+      Item:{
+          "GroupID": Guid.raw(),
+          "groupName": group.name,
+          "createDate" : Date.now,
+          "meets": [{
+            meetDate: group.meetDate,
+            items : [],
+            users: [{
+              username: username,
+              itemsClaimed: [],
+              itemsSubmitted: []
+            }]
+          }]
+      } 
+  }
   }
 
   // save issue
